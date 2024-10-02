@@ -32,6 +32,7 @@ void	draw_square(t_info *info)
 		y++;
 	}
 }
+
 void	draw_square_t(t_info *info)
 {
 	int x;
@@ -61,6 +62,31 @@ double	norm(double	angle)
 	return (angle);
 }
 
+void	render_minimap(t_info *info)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i <= info->last_line)
+	{
+		j = 0;
+		while (j < info->wight)
+		{
+			if (info->maps[i][j] == '1')
+				put_pixels_as_image(info, i, j, 0xff0080);
+			if (info->maps[i][j] == '0' || is_player(info->maps[i][j]))
+				put_pixels_as_image(info, i, j, 0xf09990);
+			// if ( j < info->wight && i <= info->last_line && is_player(info->maps[i][j]))
+			// {
+
+			// }
+			j++;
+		}
+		i++;
+	}
+}
+
 void	draw_vector(t_info *info)
 {
 	int		color;
@@ -71,19 +97,19 @@ void	draw_vector(t_info *info)
 	double	point_depart = 0;
 	double z = 0;
 
-    c = (info->wight * 60 * 60) / 180;
+    c = (WIDTH * 60) / 180;
 	while (count < M_PI / 6)
 	{
 		conditions(info, norm(info->angle + count));
         calcul_distance(info, norm(info->angle + count));
-		lenght = (60 / (info->size * cos(count))) * (((info->wight * 60)/ 2) / tan(0.523599));
-		point_depart = (((info->last_line + 1) * 60) / 2) - (lenght / 2);
+		lenght = (60 / (info->size * cos(count))) * ((WIDTH/ 2) / tan(0.523599));
+		point_depart = (HEIGHT / 2) - (lenght / 2);
 		double j = 0;
 		double step = (double)60 / (double)lenght;
 		int yy = 0;
 		while (yy < point_depart)
 		{
-			if (!(z <= (info->wight * MULT) && yy <= ((info->last_line + 1) * MULT)))
+			// if (!(z <= (info->wight * MULT) && yy <= ((info->last_line + 1) * MULT)))
 				my_mlx_pixel_put(info, z, yy,  info->c_color_int);
 			yy++;
 		}
@@ -105,18 +131,19 @@ void	draw_vector(t_info *info)
 			}
 			var2 = ((yyy * info->size_line) + (xxx * (info->bet_pxl / 8)));
 			color = *(int*)(info->image + var2);
-			if (!(z <= (info->wight * MULT) && point_depart <= ((info->last_line + 1) * MULT)))
+			// if (!(z <= (info->wight * MULT) && point_depart <= ((info->last_line + 1) * MULT)))
 				my_mlx_pixel_put(info, z, point_depart,  color);
 			point_depart++;
 			j += step;
 		}
-		while (point_depart < (info->last_line + 1) * TILE_SIZE)
+		while (point_depart < HEIGHT)
 		{
-			if (!(z <= (info->wight * MULT) && point_depart <= ((info->last_line + 1) * MULT)))
+			// if (!(z <= (info->wight * MULT) && point_depart <= ((info->last_line + 1) * MULT)))
 				my_mlx_pixel_put(info, z, point_depart,  info->f_color_int);
 			point_depart++;
 		}
 		z += 1;
-		count = count + rad / (c * 3);
+		count = count + rad / (c * 1.8);
 	}
+	render_minimap(info);
 }

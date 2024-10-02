@@ -39,7 +39,7 @@ void	conditions(t_info *info, double angle)
 void    init_window(t_info *info)
 {
 	info->mlx = mlx_init();
-	info->mlx_win = mlx_new_window(info->mlx, info->wight * 60, (info->last_line + 1) * 60, "duva");
+	info->mlx_win = mlx_new_window(info->mlx, WIDTH, HEIGHT, "duva");
 }
 
 double	ft_abs(double val)

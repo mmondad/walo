@@ -18,12 +18,12 @@ void    put_pixels_as_image(t_info *info, int i, int j, long color)
 	int y;
 
 	x = 0;
-	while (x < MULT  - 1)
+	while (x < (300 / (info->last_line + 1)) - 1)
 	{
 		y = 0;
-		while (y < MULT - 1)
+		while (y < (300 / info->wight) - 1)
 		{
-			my_mlx_pixel_put(info, (j * MULT) + y, (i * MULT) + x, color);
+			my_mlx_pixel_put(info, (j * (300 / info->wight)) + y, (i * (300 / (info->last_line + 1))) + x, color);
 			y++;
 		}
 		x++;
@@ -33,7 +33,7 @@ void    put_pixels_as_image(t_info *info, int i, int j, long color)
 void	my_mlx_pixel_put(t_info *info, int x, int y, int color)
 {
 	char	*dst;
-	if (y < 0 || y > ((info->last_line + 1)* 60) || x < 0 || x > (info->wight * 60))
+	if (y < 0 || y > HEIGHT || x < 0 || x > WIDTH)
 		return ;
 	dst = info->save + (y * info->line_length + x * (info->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
@@ -44,7 +44,7 @@ int    rendering_2d(t_info *info)
 	int i;
 	int j;
 
-	info->img = mlx_new_image(info->mlx, info->wight * TILE_SIZE, (info->last_line + 1) * TILE_SIZE);
+	info->img = mlx_new_image(info->mlx, WIDTH, HEIGHT);
 	info->save = mlx_get_data_addr(info->img, &info->bits_per_pixel, &info->line_length,
 								&info->endian);
 	if (info->angle < 0)
@@ -57,10 +57,6 @@ int    rendering_2d(t_info *info)
 		j = 0;
 		while (j < info->wight)
 		{
-			if (info->maps[i][j] == '1')
-				put_pixels_as_image(info, i, j, 0xff0080);
-			if (info->maps[i][j] == '0' || is_player(info->maps[i][j]))
-				put_pixels_as_image(info, i, j, 0xf09990);
 			if ( j < info->wight && i <= info->last_line && is_player(info->maps[i][j]))
 			{
 				if(!info->x_p)

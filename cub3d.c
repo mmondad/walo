@@ -71,9 +71,9 @@ int mouve_mouse(int x, int y, t_info *info)
 {
 	static int a;
 	if (x > a)
-		info->angle += 0.05;
+		info->angle += 0.01;
 	else if (x < a)
-		info->angle -= 0.05;
+		info->angle -= 0.01;
 	a = x;
 	return (0);
 }

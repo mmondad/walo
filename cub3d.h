@@ -18,6 +18,8 @@
 #define MINIMAP_SIZE 3
 #define TILE_SIZE 60
 #define MULT TILE_SIZE / MINIMAP_SIZE
+#define WIDTH 1920
+#define HEIGHT 1080
 
 # define VECTOR 50
 
