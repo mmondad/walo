@@ -63,17 +63,21 @@ void	render_player(t_info *info, int color)
 {
 	int	x;
 	int	y;
+	int x_p;
+	int y_p;
 
+	x_p = (int)((300 / info->wight) * (info->x_p / 60));
+	y_p = (int)((300 / (info->last_line + 1)) * (info->y_p / 60));
 	y = 0;
 	while (y < 4)
 	{
 		x = 0;
 		while (x < 4)
 		{
-			my_mlx_pixel_put(info, (info->x_p / MINIMAP_SIZE) + x, (info->y_p / MINIMAP_SIZE) + y, color);
-			my_mlx_pixel_put(info, (info->x_p / MINIMAP_SIZE) - x, (info->y_p / MINIMAP_SIZE) + y, color);
-			my_mlx_pixel_put(info, (info->x_p / MINIMAP_SIZE) - x, (info->y_p / MINIMAP_SIZE) - y, color);
-			my_mlx_pixel_put(info, (info->x_p / MINIMAP_SIZE) + x, (info->y_p / MINIMAP_SIZE) - y, color);
+			my_mlx_pixel_put(info, x_p + x, y_p + y, color);
+			my_mlx_pixel_put(info, x_p - x, y_p + y, color);
+			my_mlx_pixel_put(info, x_p - x, y_p - y, color);
+			my_mlx_pixel_put(info, x_p + x, y_p - y, color);
 			x++;
 		}
 		y++;
